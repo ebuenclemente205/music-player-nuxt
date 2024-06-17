@@ -9,4 +9,13 @@
   body {
     @apply h-screen;
   }
+  .btn {
+    @apply bg-blue-500 text-white font-bold py-2 px-4 rounded;
+  }
+  h2 {
+    @apply text-2xl font-bold leading-9 tracking-tight text-gray-900;
+  }
+  a {
+    @apply font-semibold leading-6 text-indigo-600 hover:text-indigo-500;
+  }
 }

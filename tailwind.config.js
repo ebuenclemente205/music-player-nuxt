@@ -9,8 +9,14 @@ export default {
     "./error.vue",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'app-color': '#280046',
+      },
+    },
   },
-  plugins: [],
+  plugins: [
+    // require('@tailwindcss/forms'),
+  ],
 }
 
