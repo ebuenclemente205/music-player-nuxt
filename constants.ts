@@ -1,0 +1,4 @@
+const DURATION = 180
+const PLAYLIST_ID = '1'
+
+export { DURATION, PLAYLIST_ID }
