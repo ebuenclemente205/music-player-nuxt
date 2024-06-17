@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  html {
+    @apply h-[100svh] h-screen;
+  }
+  body {
+    @apply h-screen;
+  }
+}
