@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import api from '@/api'
 import type { Song } from '@/types/Songs'
+import { DURATION, PLAYLIST_ID } from '@/constants'
 import { formatTime } from '@/utils/formatTime'
 
 const songs: Song[] = []
@@ -14,6 +15,7 @@ export const useSongStore = defineStore('songStore', {
     isPlaying: false,
     isPaused: false,
     timer: null as NodeJS.Timeout | null,
+    shuffle: false,
   }),
 
   getters: {
@@ -58,6 +60,13 @@ export const useSongStore = defineStore('songStore', {
       }
       // If the current song is the last song in the que, play the first song
       else {
+        // If shuffle is enabled, get random songs
+        if (this.shuffle) {
+          const { data, request } = api.getRandomSongs(PLAYLIST_ID)
+          await request()
+          this.queSongs = data.value.data.map((song: Song) => ({ ...song, duration: DURATION }))
+        }
+
         this.currentSongId = this.queSongs[0].id
         this.currentTime = 0
         clearInterval((this.timer as unknown as number))
@@ -79,6 +88,10 @@ export const useSongStore = defineStore('songStore', {
         clearInterval((this.timer as unknown as number))
         this.play()
       }
+    },
+
+    shuffleSongs() {
+      this.shuffle = !this.shuffle
     },
 
     updateCurrentTime() {

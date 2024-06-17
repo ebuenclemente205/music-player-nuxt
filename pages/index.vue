@@ -2,11 +2,22 @@
 import { useSongs } from '@/composables/useSongs'
 import { useSongStore } from '@/store/songs'
 
-const { songs, fetchSongs } = useSongs()
+const { songs, fetchSongs, fetchRandomSongs } = useSongs()
 const store = useSongStore()
 
 const play = () => {
   store.play()
+}
+
+const shuffle = async () => {
+  if (!store.shuffle) {
+    await fetchRandomSongs()
+  }
+  else {
+    await fetchSongs()
+  }
+
+  store.shuffleSongs()
 }
 
 fetchSongs()
@@ -23,10 +34,12 @@ definePageMeta({
   <div class="h-fit md:grid md:grid-cols-2 md:grid-rows-1 gap-4 bg-app-color md:h-screen items-center flex flex-col-reverse items-center justify-end">
     <BaseMediaPlayer
       :current-song="store.currentSong"
+      :shuffle="store.shuffle"
       :playing="store.isPlaying"
       :current-time="store.currentTimeFormatted"
       :duration="store.durationFormatted"
       :percentage="store.currentTimePercentage"
+      @shuffle="shuffle"
       @play="play"
       @pause="store.pause"
       @next="store.playNextSong"

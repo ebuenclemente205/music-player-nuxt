@@ -28,10 +28,26 @@ export function useSongs() {
     }
   }
 
+  const fetchRandomSongs = async () => {
+    isLoading.value = true
+    try {
+      const { data, request } = api.getRandomSongs(PLAYLIST_ID)
+      await request()
+      songStore.queSongs = data.value.data.map((song: Song) => ({ ...song, duration: DURATION }))
+    }
+    catch (err) {
+      error.value = err
+    }
+    finally {
+      isLoading.value = false
+    }
+  }
+
   return {
     songs,
     isLoading,
     error,
     fetchSongs,
+    fetchRandomSongs,
   }
 }
